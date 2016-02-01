@@ -1,0 +1,436 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>李宝库</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    
+    <meta name="description" content="##概述URL载入系统包括了加载URL的类以及一些重要的辅助类。这些主要的辅助类有五大类：protocol support、autentication and credentials、cookie storage、configuration management和cache managerment。">
+    
+    
+    
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="李宝库" title="李宝库"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="李宝库">李宝库</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/02/01/NSURLSession/" title="" itemprop="url"></a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://yoursite.com" title="null">null</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2016-02-01T10:44:24.000Z" itemprop="datePublished">2016-02-01</time>
+    更新日期:<time datetime="2016-02-01T10:44:24.000Z" itemprop="dateModified">2016-02-01</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目錄</strong>
+		<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#u540E_u53F0_u4F20_u8F93_u7684_u60C5_u5F62"><span class="toc-number">1.</span> <span class="toc-text">后台传输的情形</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Life_cycle_u548CDelegate_Interaction"><span class="toc-number">2.</span> <span class="toc-text">Life cycle和Delegate Interaction</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NSCopying_u884C_u4E3A"><span class="toc-number">3.</span> <span class="toc-text">NSCopying行为</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u4EE3_u7406_u7C7B_u63A5_u53E3_u4E8B_u4F8B"><span class="toc-number"></span> <span class="toc-text">代理类接口事例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u4F7F_u7528_u7CFB_u7EDF_u63D0_u4F9B_u7684_u4EE3_u7406_u83B7_u53D6_u8D44_u6E90"><span class="toc-number"></span> <span class="toc-text">使用系统提供的代理获取资源</span></a>
+		</div>
+		
+		<p>##概述<br>URL载入系统包括了加载URL的类以及一些重要的辅助类。这些主要的辅助类有五大类：protocol support、autentication and credentials、cookie storage、configuration management和cache managerment。</p>
+<p>###URL加载<br>在URL载入系统中的最常用的类使得你的app能够提在一个url的源提取内容。</p>
+<ul>
+<li>在iOS7以及以后的版本中，NSURLSession是推荐的API，请求数据</li>
+<li>在老版本的iOS或OSX，你可以使用NSURLConnection来下载URL的内容到内存中，你也可以写入到磁盘中</li>
+</ul>
+<p>###抓取内容保存到内存<br>在high level上，有两种基本方式用来抓取URL数据：</p>
+<ul>
+<li>对于简单的请求，使用NSURLSession API从NSURL对象中直接获取内容，也可以作为NSData对象或磁盘中的文件。</li>
+<li>对于复杂的请求，比如上传数据，系统提供了一个NSURLRequest对象。</li>
+</ul>
+<p>不管你选择哪种方式，你的app可以通过两种方式获取数据：</p>
+<ul>
+<li>提供一个completion处理回调。URL加载类会在获取数据结束事调用这个回调。</li>
+<li>提供一个自定义的代理。随着从服务区获取数据，URL加载类会定期调用你的代理方法。如果需要，你的app负责组合数据。</li>
+</ul>
+<p>除了数据本身，URL加载类提供给你的代理或回调一个回复对象，这个对象封装了与请求关联的metadata，比如MIME类型和内容长度。</p>
+<p>###下载内容到文件<br>在high level上，有两种基本方式将内容下载到文件：</p>
+<ul>
+<li>对于简单的请求，使用NSURLSession API从NSURL对象中直接获取内容，也可以作为NSData对象或磁盘中的文件。</li>
+<li>对于复杂的请求，比如上传数据，系统提供了一个NSURLRequest对象。</li>
+</ul>
+<p>相比NSURLDownload类，NSURLSession类有两个明显优势：它可以在iOS上使用；当你的app在后台之行、终止或崩溃时，下载可以继续。</p>
+<blockquote>
+<p><strong>注意</strong>:通过NSURLDownload或NSURLSession实例开启的下载是不缓存的。如果你需要缓存结果，你的app必须使用NSURLConnection或NSURLSession，并且自己将数据写入到文件。</p>
+</blockquote>
+<p>##辅助类<br>URL载入类使用两个辅助类，提供了额外的metadata，一个是request本身（NSURLRequest），另一个是服务区的response(NSURLRespone)。</p>
+<p>###URL Requests<br>一个NSURLRequest对象封装了一个URL和任何与协议指定的属性。它也制定了是否使用本地缓存的策略，当使用NSURLConnection时，也提供设置连接超时的接口。（对于NSURLSession，超时是基于单个session设置的）。<br>一些协议支持protocol-specific属性。比如，HTTP协议向NSURLRequest添加了方法，这个方法返回HTTP请求的body、headers、和transfer method。</p>
+<p>###Response Metadata<br>服务端针对请求的回复可以分为两部分：描述内容的metadata和内容数据本身。Metadta对大多数协议是通用的，封装到NSURLResponse类，由MIME类型组成，期望的内容长度，文本编码，以及提供回复的url。特定协议的NSURLResponse子类可以提供额外的metadata。比如，NSHTTPURLresponse存储了headers和状态码。</p>
+<blockquote>
+<p> 注意：只有回复的metadata被存储到NSURLResponse对象中。不同的URL加载类通过回调或代理提供回复数据。</p>
+</blockquote>
+<p>NSCacheURLResponse实例封装了NSURLResponse对象，URL内容数据和其他的额外的信息。</p>
+<p>###重定向和其他请求修改<br>一些协议，比如HTTP，对server提供了一种方式，来告诉app内容已经被移动到了另一个不同的url。当重定向发生时，URL加载类可以通知它们的代理。如果你的app提供了合适的代理方法，你的app可以决定是否重定向，返回重定向请求后的数据，或返回错误。</p>
+<p>###authentication 和 credentials<br>一些服务器限制了真对某些内容的访问，需要用户来提供一些credentials（客户端的证书，用户名和密码等等）。在Web服务器端，受限制的内容是被按照组分到某个域下，只需要一个credentials集合。<br>URL加载类提供了将credential模型化的类，以及提供了安全的credential的持久化。你的app可以对这些credentials针对某个request保持持久性，在app的登陆期间或存到用户的keychain中。</p>
+<blockquote>
+<p>Credentials的持久化存储保存到用户的keychain中，可以在app中分享</p>
+</blockquote>
+<p>NSURLCredential类封装了一个包含认证信息（比如用户名密码）和持久化行为的credential。NSURLProtectionSpace类代表了一个域，这个域需要特定的credential。一个protection space可以被限定为一个单独的url，一个web server的上一个域，或一个代理。<br>NSURLAuthenticationChallenge 类封装了NSURLProtocol实现需要的信息，用来认证一个请求，包括：proposed credential、protection space、协议用来确定认证是否有效的error或response，认证的尝试次数。NSURLAuthenticationChallenge实例指定了初始化认证的对象。初始化对象，通过<em>sender</em>引用，必须服从NSURLAuthenticationChallengeSender协议。<br>NSURLAuthenticationChallenge实例被NSURLProtocol的子类所使用，通知URL加载类系统需要认证。它们也提供了NSURLConnection和NSURLDownload的代理方法来进行自定义认证处理。</p>
+<p>###缓存管理<br>URL加载系统提供了disk和内存缓存，使得app能够减少对网络连接的依赖，对于先前缓存的回复提供更好的响应速度。缓存是针对app的。NSURLConnection会询问缓存策略。<br>NSURLCache类提供了方法来配置缓存大小以及位置。它也提供了方法来管理NSCachedURLResponse对象的集合，这些对象包含缓存的回复。<br>CachedURLResponse对象封装了NSURLResponse对象和URL内容数据。CachedURLResponse也包含了用户信息字典，你的app可以使用这个字典来缓存任何自定义数据。<br>不是所有的协议都支持response缓存，目前只有http和https支持缓存。<br>NSURLConnection对象可以控制某个请求是否被缓存，以及是否在内存中缓存，通过实现connection:willCacheResponse:方法。</p>
+<p>#使用NSURLSession<br>NSURLSession类以及相关类提供了API通过HTTP下载内容。这个API提供了丰富的代理方法，支持认证、后台下载。<br>要使用NSURLSession API，你的app会创建一系列的sessions，每个session对应一组数据传输的任务。必入，如果你在写一个web浏览器，你的app可以对每个tab或window创建一个session。在每个session内，你的app添加一系列任务，每个task代表了针对某个特定url的请求。<br>向大多数网络API，NSURLSession是高度异步的。如果你是用默认系统提供的代理，你必须提供一个完成处理回调，在传输成功或失败时，来向你的app返回数据。如果你使用自定义的代理对象，task对象会调用这些代理方法。<br>NSURLSession API除了向代理发送数据外，还提供了status和progess属性。它支持取消，重新开始以及挂起任务。</p>
+<p>##理解URL Session概念<br>session中task的行为取决于三个东西：session的类型、task的类型和当task被创建时app是否在前台。</p>
+<p>###Session类型<br>NSURLSession API支持三种类型，取决于创建session的配置对象的类型：</p>
+<ul>
+<li>Default sessions，跟Foundation中其他下载的方法行为相似。它们使用基于disk的持久缓存，存储credentials在user keychainszhong。</li>
+<li>Ephemeral sessions，不向disk存储任何数据；所有的缓存数据，credential等都保存在与session 关联的RAM中。所以当app关闭session后，数据就清空了。</li>
+<li>Background sessions，与默认的sessions类似，但是这种session是有一个单独的进程来处理数据传输。另外它有一些额外的限制。</li>
+</ul>
+<p>###Task类型<br>在一个session内，NSURLSession类支持三中类型的task：</p>
+<ul>
+<li>Data tasks 使用NSData来发送和接收数据。Data tasks被用来进行short、often interacitve的请求。</li>
+<li>Download tasks以文件的方式提取数据，支持后台下载</li>
+<li>Upload tasks以文件形式发送数据，支持后台下载</li>
+</ul>
+<h3 id="u540E_u53F0_u4F20_u8F93_u7684_u60C5_u5F62"><a href="#u540E_u53F0_u4F20_u8F93_u7684_u60C5_u5F62" class="headerlink" title="后台传输的情形"></a>后台传输的情形</h3><p>在app挂起时，NSURLSession支持后台传输。后台传输只能通过background session configuration对象创建的session提供。<br>使用后台session，因为实际的传输是由单独的进程操作，重起app的进程是十分昂贵的，所以一些特性实现不了：</p>
+<ul>
+<li>session必须对每个event delivery提供代理</li>
+<li>只有HTTP和HTTPS支持</li>
+<li>总是会重定向</li>
+<li>只支持从文件的upload task，从data objects或steam上传的在程序退出后被失败</li>
+<li>如果app进入后台后才初始化background传输，配置对象的discretionary属性总是被视为true</li>
+</ul>
+<p>在iOS中，当后台传输完成或需要credential时，如果你的app不再运行，iOS会在后台自动重新登录你的app，调用application:handleEventsForBackgroundURLSession:completionHandler:方法。这个调用提供了引起app重启的session的标识符。你的app应该存储完成回调，用这个标识符创建一个后台配置对象，用这个配置对象创建session。这个新的session会自动与这个后台活动相关联。随后，当session完成最后一个后台下载任务，它会向session代理发送：URLSessionDidFinisheEventsForBackgroundURLSession:消息。你的session代理应该调用存储的完成回调。在iOS下，当用户重新登录app，你的app应该立刻创建后台配置对象，使用app运行时还在运行的session标识符，然后针对每个配置对象创建一个session。这些新的session会自动与正在进行的后台活动相关联。<br>如果任何一个task在app挂起时完成，代理的URLSession:downloadTask:didFinishDownloadingToURL:方法会被调用。</p>
+<p>后台的上传和下载任务会自动重试。没必要使用reachability API来测试网络的连通性。</p>
+<h3 id="Life_cycle_u548CDelegate_Interaction"><a href="#Life_cycle_u548CDelegate_Interaction" class="headerlink" title="Life cycle和Delegate Interaction"></a>Life cycle和Delegate Interaction</h3><p>针对你使用NSURLSession类做的事情，了解session的生命周期可能对你有所帮助，包括session如何与它的代理进行交互，delegate调用的顺序，当服务器返回重定向时发生了什么，当app恢复一个失败的下载时发生了什么，等等。</p>
+<h3 id="NSCopying_u884C_u4E3A"><a href="#NSCopying_u884C_u4E3A" class="headerlink" title="NSCopying行为"></a>NSCopying行为</h3><p>Session和task对戏那个服从NSCopying协议：</p>
+<ul>
+<li>当你的app拷贝一个session或task对象，你获得同一个对象。</li>
+<li>当你app拷贝一个配置对象，你得到一个崭新的拷贝，你可以进行修改</li>
+</ul>
+<h2 id="u4EE3_u7406_u7C7B_u63A5_u53E3_u4E8B_u4F8B"><a href="#u4EE3_u7406_u7C7B_u63A5_u53E3_u4E8B_u4F8B" class="headerlink" title="代理类接口事例"></a>代理类接口事例</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#import &#60;Foundation/Foundation.h&#62;&#10;&#10;typedef void (^CompletionHandlerType)();&#10;&#10;@interface MySessionDelegate : NSObject &#60;NSURLSessionDelegate, NSURLSessionTaskDelegate, NSURLSessionDataDelegate, NSURLSessionDownloadDelegate&#62;&#10;&#10;@property NSURLSession *backgroundSession;&#10;@property NSURLSession *defaultSession;&#10;@property NSURLSession *ephemeralSession;&#10;&#10;#if TARGET_OS_IPHONE&#10;@property NSMutableDictionary *completionHandlerDictionary;&#10;#endif&#10;&#10;- (void) addCompletionHandler: (CompletionHandlerType) handler forSession: (NSString *)identifier;&#10;- (void) callCompletionHandlerForSession: (NSString *)identifier;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
+<p>##创建和配置session<br>The NSURLSession API提供了很多配置选项：</p>
+<ul>
+<li>caches、cookies、credentials的存储，针对某个session的协议</li>
+<li>Authentication，针对某个task或某个session</li>
+<li>文件上传和下载，鼓励data和metadata分离</li>
+<li>配置每个host的最大连接数量</li>
+<li>超时</li>
+<li>最大和最小TLS版本支持</li>
+<li>自定义proxy字典</li>
+<li>cookies策略控制</li>
+<li>HTTP pipelining行为控制</li>
+</ul>
+<p>因为大多数设置都是保存在配置对象中，你可以复用这些设置。当你实例化一个session时，你要设定下面这些：</p>
+<ul>
+<li>一个配置对象，管理session和其中task的行为</li>
+<li>可选的，一个代理对象处理到来的数据和其他针对这个session和其中task的事件，比如服务器认证，决定一个资源请求是否转换成下载等等。</li>
+</ul>
+<p>如果你没有提供代理，NSURLSession对象会使用系统提供的代理。这种方式下，你可以方便地使用NSURLSession<br>代替先有的使用sendAsynchronousRequest:queue:completionHandler:的方法。</p>
+<blockquote>
+<p>如果你的app需要后台传输，必须提供自定义代理</p>
+</blockquote>
+<p>一旦你实例一个session对象，你就不能再修改配置或者代理，除非新创建一个session对象。下面展示了如何创建session。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># if TARGET\_OS\_IPHONE&#10;&#10;self.completionHandlerDictionary = [NSMutableDictionary dictionaryWithCapacity:0];&#10;&#10;&#10;# endif&#10;&#10;&#10;/* Create some configuration objects. */&#10;&#10;NSURLSessionConfiguration *backgroundConfigObject = [NSURLSessionConfiguration backgroundSessionConfiguration: @&#34;myBackgroundSessionIdentifier&#34;];&#10;NSURLSessionConfiguration *defaultConfigObject = [NSURLSessionConfiguration defaultSessionConfiguration];&#10;NSURLSessionConfiguration *ephemeralConfigObject = [NSURLSessionConfiguration ephemeralSessionConfiguration];&#10;&#10;/* Configure caching behavior for the default session.&#10;   Note that iOS requires the cache path to be a path relative&#10;   to the ~/Library/Caches directory, but OS X expects an&#10;   absolute path.&#10; */&#10;&#10;&#10;# if TARGET\_OS\_IPHONE&#10;&#10;NSString *cachePath = @&#34;/MyCacheDirectory&#34;;&#10;&#10;NSArray *myPathList = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);&#10;NSString *myPath    = [myPathList  objectAtIndex:0];&#10;&#10;NSString *bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];&#10;&#10;NSString *fullCachePath = [[myPath stringByAppendingPathComponent:bundleIdentifier] stringByAppendingPathComponent:cachePath];&#10;NSLog(@&#34;Cache path: %@\n&#34;, fullCachePath);&#10;&#10;&#10;# else&#10;&#10;NSString *cachePath = [NSTemporaryDirectory() stringByAppendingPathComponent:@&#34;/nsurlsessiondemo.cache&#34;];&#10;&#10;NSLog(@&#34;Cache path: %@\n&#34;, cachePath);&#10;&#10;# endif&#10;&#10;NSURLCache *myCache = [[NSURLCache alloc] initWithMemoryCapacity: 16384 diskCapacity: 268435456 diskPath: cachePath];&#10;defaultConfigObject.URLCache = myCache;&#10;defaultConfigObject.requestCachePolicy = NSURLRequestUseProtocolCachePolicy;&#10;&#10;/* Create a session for each configurations. */&#10;self.defaultSession = [NSURLSession sessionWithConfiguration: defaultConfigObject delegate: self delegateQueue: [NSOperationQueue mainQueue]];&#10;self.backgroundSession = [NSURLSession sessionWithConfiguration: backgroundConfigObject delegate: self delegateQueue: [NSOperationQueue mainQueue]];&#10;self.ephemeralSession = [NSURLSession sessionWithConfiguration: ephemeralConfigObject delegate: self delegateQueue: [NSOperationQueue mainQueue]];</span><br></pre></td></tr></table></figure>
+<p>除了后台配置，你可以服用session配置对象来创建额外的sessions。<br>你可以安全地在任何时候修改配置对象。当你创建一个session，session会在配置对象上执行深拷贝，所以修改配置对象只影响新的session，不是当前的session。</p>
+<h2 id="u4F7F_u7528_u7CFB_u7EDF_u63D0_u4F9B_u7684_u4EE3_u7406_u83B7_u53D6_u8D44_u6E90"><a href="#u4F7F_u7528_u7CFB_u7EDF_u63D0_u4F9B_u7684_u4EE3_u7406_u83B7_u53D6_u8D44_u6E90" class="headerlink" title="使用系统提供的代理获取资源"></a>使用系统提供的代理获取资源</h2><p>使用NSURLSession最直接的方法就是代替NSURLSession的sendAsynchronousRequest:queue:completionHandler:方法。这张方式，你只需要提供两段代码：</p>
+<ul>
+<li>创建配置对象和根据这个对象生成session对象</li>
+<li>一个完成回调处理</li>
+</ul>
+<p>使用系统提供的回调，你可以对每个请求一行代码获取url。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSURLSession *delegateFreeSession = [NSURLSession sessionWithConfiguration: defaultConfigObject delegate: nil delegateQueue: [NSOperationQueue mainQueue]];&#10; &#10;[[delegateFreeSession dataTaskWithURL: [NSURL URLWithString: @&#34;http://www.example.com/&#34;]&#10;                       completionHandler:^(NSData *data, NSURLResponse *response,&#10;                                           NSError *error) &#123;&#10;                           NSLog(@&#34;Got response %@ with error %@.\n&#34;, response, error);&#10;                           NSLog(@&#34;DATA:\n%@\nEND DATA\n&#34;,&#10;                                 [[NSString alloc] initWithData: data&#10;                                         encoding: NSUTF8StringEncoding]);&#10;                       &#125;] resume];</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>系统提供的代理只提供有限的自定义网络行为。如果你的app有特殊需求，必入自定义认证或者后台下载，这种方式就不适合。</p>
+</blockquote>
+<p>##使用自定义代理获取数据<br>如果你使用自定义代理来获取数据，代理至少必须实现下面的方法：</p>
+<ul>
+<li>URLSession:dataTask:didReceiveData:从请求向你的task提供数据，one piece at a time</li>
+<li>URLSession:task:didCompleteWithError:表示你的数据已经完全下载完成</li>
+</ul>
+<p>如果你的app需要在URLSession:dataTask:didReceiveData:方法返回后使用数据，你的代码负责存储数据。<br>比如，一个web浏览器可能需要在数据载入的时候就对数据进行渲染。要实现这种行为，它可能要使用一个字典将task对象映射到一个NSMutableData对象来存储结果，然后使用<em>appendData:</em>方法添加新到达的数据。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSURL *url = [NSURL URLWithString: @&#34;http://www.example.com/&#34;];&#10; &#10;NSURLSessionDataTask *dataTask = [self.defaultSession dataTaskWithURL: url];&#10;[dataTask resume];</span><br></pre></td></tr></table></figure>
+<p>##下载文件<br>在较高层面上，下载文件跟获取数据非常类似。你的App必须实现下面的代理方法：</p>
+<ul>
+<li>URLSession:downloadTask:didFinishDownloadingToURL:提供了暂存内容的临时文件</li>
+</ul>
+<blockquote>
+<p><strong>注意：</strong>在这个方法返回之前，它需要打开读取这个文件或者将这个文件移动到一个最终位置。当这个方法返回的时候，临时文件会被删除。</p>
+</blockquote>
+<ul>
+<li>URLSession:downloadTask:didWriteData:totalBytesWritten:totalBytesExpectedToWrite:提供了下载过程中的状态信息</li>
+<li>URLSession:downloadTask:didResumeAtOffset:expectedTotalBytes:告诉你的app，它先前想恢复的失败下载已经成功完成</li>
+<li>URLSession:task:didCompleteWithError:告诉你的app下载失败了</li>
+</ul>
+<p>如果你的下载在后台session中执行，当app不在运行时下载会继续。如果你的任务是在standard或ephemeral session，下载会在app重新登录后重新开始。</p>
+<p>在传输期间，如果用户告诉你的app摇暂停下载，你的app可以通过调用<em>cancelByProducingResumeData:</em>方法来取消任务。然后，你的app可以将返回的resumed data传递给<em>downloadTaskWithResumeData:</em>或<em>downloadTaskWithResumeData:completeHandler:</em>来创建一个新的任务来继续下载。</p>
+<p>如果传输失败，你的代理的<em>URLSession:task:didCompleteWithError:</em>方法被调用，带一个NSError对象。如果task恢复，这个error对象的userInfo字典包含了NSURLSessionDownloadTaskResumeData为key的值的字典；你的app可以将这个返回的resumed数据传输给<em>downloadTaskWithResumeData</em>或<em>downloadTaskWithResumeData:didcompleteWithError:</em>方法来创建一个新的任务来重试下载。</p>
+<p>下面展示了下载一个比较大的文件的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSURL *url = [NSURL URLWithString: @&#34;https://developer.apple.com/library/ios/documentation/Cocoa/Reference/&#34;&#10;              &#34;Foundation/ObjC_classic/FoundationObjC.pdf&#34;];&#10; &#10;NSURLSessionDownloadTask *downloadTask = [self.backgroundSession downloadTaskWithURL: url];&#10;[downloadTask resume];</span><br></pre></td></tr></table></figure>
+<p>下面是下载的回调：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-(void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location&#10;&#123;&#10;    NSLog(@&#34;Session %@ download task %@ finished downloading to URL %@\n&#34;,&#10;        session, downloadTask, location);&#10; &#10;#if 0&#10;    /* Workaround */&#10;    [self callCompletionHandlerForSession:session.configuration.identifier];&#10;#endif&#10; &#10;#define READ_THE_FILE 0&#10;#if READ_THE_FILE&#10;    /* Open the newly downloaded file for reading. */&#10;    NSError *err = nil;&#10;    NSFileHandle *fh = [NSFileHandle fileHandleForReadingFromURL:location&#10;        error: &#38;err];&#10; &#10;    /* Store this file handle somewhere, and read data from it. */&#10;    // ...&#10; &#10;#else&#10;    NSError *err = nil;&#10;    NSFileManager *fileManager = [NSFileManager defaultManager];&#10;    NSString *cacheDir = [[NSHomeDirectory()&#10;        stringByAppendingPathComponent:@&#34;Library&#34;]&#10;        stringByAppendingPathComponent:@&#34;Caches&#34;];&#10;    NSURL *cacheDirURL = [NSURL fileURLWithPath:cacheDir];&#10;    if ([fileManager moveItemAtURL:location&#10;        toURL:cacheDirURL&#10;        error: &#38;err]) &#123;&#10; &#10;        /* Store some reference to the new URL */&#10;    &#125; else &#123;&#10;        /* Handle the error. */&#10;    &#125;&#10;#endif&#10; &#10;&#125;&#10; &#10;-(void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite&#10;&#123;&#10;    NSLog(@&#34;Session %@ download task %@ wrote an additional %lld bytes (total %lld bytes) out of an expected %lld bytes.\n&#34;,&#10;        session, downloadTask, bytesWritten, totalBytesWritten, totalBytesExpectedToWrite);&#10;&#125;&#10; &#10;-(void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didResumeAtOffset:(int64_t)fileOffset expectedTotalBytes:(int64_t)expectedTotalBytes&#10;&#123;&#10;    NSLog(@&#34;Session %@ download task %@ resumed at offset %lld bytes out of an expected %lld bytes.\n&#34;,&#10;        session, downloadTask, fileOffset, expectedTotalBytes);&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>##上传body content</p>
+<p>你的app可以给一个HTTP POST请求提供body content，有三种方式：作为一个NSData对象，作为file或者作为一个stream。</p>
+<ul>
+<li>如果你的app在内存中已经有数据，也不会删除它，就使用NDData对象。</li>
+<li>如果你的内容已经作为文件存储在了disk上，如果你要进行后台传输，或者如果文件存在disk上对你的app比较有益，就使用file</li>
+<li>如果通过网络获取数据，或者从当前的NSURLConnection获取数据，就使用stream</li>
+</ul>
+<p>不管选择哪种，如果你的app提供自定义的session代理，代理必须实现URLSession:task:didSendBodyData:totalBytesSent:totalBytesExpectedToSend: 方法获得上传的过程信息</p>
+<p>除此之外，如果你的app使用stream上传，它必须实现URLSession:task:needNewBodyStream:方法。</p>
+<p>###使用NSData对象上传内容<br>要使用NSData对象来上传内容，你的app调用uploadTaskWithRequest:fromData: 或 uploadTaskWithRequest:fromData:completionHandler: 来创建上传任务，通过fromData提供上传数据。</p>
+<p>Session对象基于data对象的大小来计算Header中<em>Content－Length</em>。</p>
+<p>你的app必须提供服务端需要的额外的头部信息，比如内容类型。</p>
+<p>###使用File上传内容<br>要使用file上传，你的app必须调用uploadTaskWithRequest:fromFile: 或 uploadTaskWithRequest:fromFile:completionHandler:方法来创建任务，提供file的URL地址。</p>
+<p>Session对象基于data对象的大小来计算Header中<em>Content－Length</em>。如果你的app没有提供<em>Content-Type</em>，session会提供一个。</p>
+<p>###使用Stream上传内容<br>要使用stream上传内容，你的app要调用<em>uploadTaskWithStreamedRequest:</em>方法来创建任务。你的app提供一个与stream相关联的request对象，task从中读取内容。</p>
+<p>你的app必须提供额外的头部信息，比如内容类型和长度，作为URL request对象的一部分。</p>
+<p>除此之外，因为session不能回退提供的stream重新读取，如果要重试，你的app负责提供<br>新的stream。这样的话，你的app要提供<em>URLSession:task:needNewBodyStream:</em>方法。当这个方法调用时，你的app要提供新的body stream，然后用新的stream调用提供的完成回调。</p>
+<blockquote>
+<p><em>注意：</em>因为app必须提供<em>URLSession:task:needNewBodyStream:</em>代理方法来使用stream，这个技术跟自定义的代理不兼容。</p>
+</blockquote>
+<p>###使用Download Task上传File<br>要使用下载任务来上传内容，你的app必须提供NSData或body stream作为NSURLRequest对象的一部分。</p>
+<p>如果你使用stream提供数据，你的app必须提供URLSession:task:needNewBodyStream:代理方法提供一个新的body stream（一旦认证失败）。</p>
+<p>Download task就像data task一样，出了返回数据的方式不同。</p>
+<p>##处理iOS后台活动</p>
+<p>如果你在iOS使用NSURLSession，在下载完成时你的app会自动重新登录。你的app的application:handleEventsForBackgroundURLSession:completionHandler:方法负责重新创建合适的session，存储完成handler，以及在session调用URLSessionDidFinishEventsForBackgroundURLSession: 方法时调用这个完成handler.</p>
+<p>iOS后台下载的Session代理方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#if TARGET_OS_IPHONE&#10;-(void)URLSessionDidFinishEventsForBackgroundURLSession:(NSURLSession *)session&#10;&#123;&#10;    NSLog(@&#34;Background URL session %@ finished events.\n&#34;, session);&#10; &#10;    if (session.configuration.identifier)&#10;        [self callCompletionHandlerForSession: session.configuration.identifier];&#10;&#125;&#10; &#10;- (void) addCompletionHandler: (CompletionHandlerType) handler forSession: (NSString *)identifier&#10;&#123;&#10;    if ([ self.completionHandlerDictionary objectForKey: identifier]) &#123;&#10;        NSLog(@&#34;Error: Got multiple handlers for a single session identifier.  This should not happen.\n&#34;);&#10;    &#125;&#10; &#10;    [ self.completionHandlerDictionary setObject:handler forKey: identifier];&#10;&#125;&#10; &#10;- (void) callCompletionHandlerForSession: (NSString *)identifier&#10;&#123;&#10;    CompletionHandlerType handler = [self.completionHandlerDictionary objectForKey: identifier];&#10; &#10;    if (handler) &#123;&#10;        [self.completionHandlerDictionary removeObjectForKey: identifier];&#10;        NSLog(@&#34;Calling completion handler.\n&#34;);&#10; &#10;        handler();&#10;    &#125;&#10;&#125;&#10;#endif</span><br></pre></td></tr></table></figure>
+<p>App处理iOS后台下载的代理方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)())completionHandler&#10;&#123;&#10;    NSURLSessionConfiguration *backgroundConfigObject = [NSURLSessionConfiguration backgroundSessionConfiguration: identifier];&#10; &#10;    NSURLSession *backgroundSession = [NSURLSession sessionWithConfiguration: backgroundConfigObject delegate: self.mySessionDelegate delegateQueue: [NSOperationQueue mainQueue]];&#10; &#10;    NSLog(@&#34;Rejoining session %@\n&#34;, identifier);&#10; &#10;    [ self.mySessionDelegate addCompletionHandler: completionHandler forSession: identifier];&#10;&#125;</span><br></pre></td></tr></table></figure>  
+	</div>
+		<footer class="article-footer clearfix">
+
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://yoursite.com/2016/02/01/NSURLSession/" data-title="李宝库" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2016/01/30/hello-world/"  title="Hello World">
+ <strong>NEXT:</strong><br/> 
+ <span>Hello World
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目錄</strong>
+  <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#u540E_u53F0_u4F20_u8F93_u7684_u60C5_u5F62"><span class="toc-number">1.</span> <span class="toc-text">后台传输的情形</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Life_cycle_u548CDelegate_Interaction"><span class="toc-number">2.</span> <span class="toc-text">Life cycle和Delegate Interaction</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NSCopying_u884C_u4E3A"><span class="toc-number">3.</span> <span class="toc-text">NSCopying行为</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u4EE3_u7406_u7C7B_u63A5_u53E3_u4E8B_u4F8B"><span class="toc-number"></span> <span class="toc-text">代理类接口事例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u4F7F_u7528_u7CFB_u7EDF_u63D0_u4F9B_u7684_u4EE3_u7406_u83B7_u53D6_u8D44_u6E90"><span class="toc-number"></span> <span class="toc-text">使用系统提供的代理获取资源</span></a>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<aside class="clearfix">
+
+  
+
+  
+
+  <div class="rsspart">
+	<a href="null" target="_blank" title="rss">RSS 訂閱</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<div class="social-font clearfix">
+		
+		
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2016 
+		
+		<a href="http://yoursite.com" title="李宝库">李宝库</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+
+
+
+  </body>
+</html>
