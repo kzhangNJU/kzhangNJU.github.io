@@ -180,6 +180,147 @@
 
       <div class="body-wrap">
   
+    <article id="post-Life Cycle of URLSession Object" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/02/05/Life Cycle of URLSession Object/" class="article-date">
+  	<time datetime="2016-02-05T05:22:09.000Z" itemprop="datePublished">2016-02-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/02/05/Life Cycle of URLSession Object/">text.md</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="URL_Session_u7684_u751F_u547D_u5468_u671F"><a href="#URL_Session_u7684_u751F_u547D_u5468_u671F" class="headerlink" title="URL Session的生命周期"></a>URL Session的生命周期</h1><p>你可以使用两种方式使用NSURLSession的API：使用系统提供的代理或你自己的代理。在下面情况下，你需要使用自定义的代理：</p>
+<ul>
+<li>当app不在运行时，使用后台session进行上传和下载</li>
+<li>自定义authentication</li>
+<li>进行自定义的SSL认证</li>
+<li>根据服务器返回的MIME类型或者其他规则，决定哪个传输该下载或展示</li>
+<li>从body stream上传数据</li>
+<li>程序上限制缓存</li>
+<li>程序上限制HTTP重定向</li>
+</ul>
+<p>如果你的app不需要上面的这些功能，你可以使用系统提供的代理。</p>
+<h2 id="u7CFB_u7EDF_u63D0_u4F9B_u4EE3_u7406_u7684URL_Session_u7684_u751F_u547D_u5468_u671F"><a href="#u7CFB_u7EDF_u63D0_u4F9B_u4EE3_u7406_u7684URL_Session_u7684_u751F_u547D_u5468_u671F" class="headerlink" title="系统提供代理的URL Session的生命周期"></a>系统提供代理的URL Session的生命周期</h2><p>如果你在使用NSURLSession时不提供代理对象，系统提供的代理会代替你处理很多细节的东西。下面是你的app必须要提供的一些基本方法，以及app接收到的completion handler的处理顺序。</p>
+<ol>
+<li>创建一个session configuration。对于后台的session，配置必须包含一个标识符。当app崩溃、终止或悬停时，使用这个标识符重新关联session.</li>
+<li>创建一个session，指定配置对象，代理设为nil.</li>
+<li><p>在session内创建任务对象，每个代表一个请求.每个任务的起始状态时suspended。在这个任务上调用<em>resume</em>方法，它才开始下载。任务对象都是NSURLSessionTask的子类，即NSURLSessionDataTask、NSURLSessionUploadTask或NSURLSessionDownloadTask。这些对象跟NSURLConnection很相似，但是它们能提供给你更多的控制权和一个统一的代理model。</p>
+<p>尽管你的app可以（通常情况下也应该）给一个session添加多个task，为了简化，下面的步骤描述的是单个task的生命周期。</p>
+<blockquote>
+<p>注意：如果你在使用NSURLSession时不提供代理，你的app必须使用带有completionHandler参数的方法，没有的话就无法接受数据了</p>
+</blockquote>
+</li>
+<li><p>对于download task，传输期间，如果用户要暂停下载，可以通过调用<em>cancelByProducingResumeData:</em>。然后，将这个方法返回的resume data传递给<em>downloadTaskWithResumeData:</em>或<em>downloadTaskWithResumeData:completionHandler:</em>来创建一个新的task继续下载。</p>
+</li>
+<li><p>当task完成时，NSURLSession会调用task的completion handler。</p>
+<blockquote>
+<p>注意：NSURLSession对象不通过error参数来报告服务器错误。通过erro参数能接收到的参数只是客户端侧的错误，比如不能解析域名或连接不到服务器。</p>
+</blockquote>
+<p> Server侧的错误通过NSHTTPURLResponse对象的HTTP状态码来报告。</p>
+</li>
+<li>当你的app不需要session时，调用<em>invalidateAndCancel</em>或<em>finishTaskAndInvalidate</em>方法来invalidate任务。</li>
+</ol>
+<p>##自定义代理的URL Session的生命周期<br>通常情况下使用NSURLSession API时不需要提供代理。但是如果你要进行后台的上传或下载，身份认证，已经缓存策略的修改，你必须提供代理，代理要服从session代理协议、一个或多个task代理协议<br>或两者的组合。这些代理的任务有：</p>
+<ul>
+<li><p>当使用download task时，NSURLSession对象使用你提供的代理给你的app提供一个file URL，从这个URL可以获取下载数据</p>
+<p>  对于所有的后台上传和下载都需要代理。这些代理必须提供所有NSURLSessionDownloadDelege协议规定的方法。</p>
+</li>
+<li>代理可以处理authentication challange</li>
+<li>代理可以向server提供body streams，用于上传stream-based数据</li>
+<li>代理可以决定是否进行重定向</li>
+<li>NSURLSession对象使用代理提供传输的状态。Data task代理，能够接收到一个initial call。你可以将这个请求转换成下载，还能接收接下来的一些调用，这些调用提供了从服务器获取的一片片数据。</li>
+<li>代理是唯一一种NSURLSession对象能够告诉你的app下载完成的方式</li>
+</ul>
+<p>如果你对URL Session使用自定义代理，整个的生命周期会更加复杂。</p>
+<ol>
+<li>创建一个session配置。对于后台session，这个配置必须包含一个唯一标识符。当app崩溃或终止或suspended时，将session与之重新关联 </li>
+<li>创建一个session，指定配置对象和代理</li>
+<li><p>在session内创建任务对象，每个代表一个请求.每个任务的起始状态时suspended。在这个任务上调用<em>resume</em>方法，它才开始下载。任务对象都是NSURLSessionTask的子类，即NSURLSessionDataTask、NSURLSessionUploadTask或NSURLSessionDownloadTask。这些对象跟NSURLConnection很相似，但是它们能提供给你更多的控制权和一个统一的代理model。</p>
+<p>尽管你的app可以（通常情况下也应该）给一个session添加多个task，为了简化，下面的步骤描述的是单个task的生命周期。</p>
+</li>
+<li><p>如果服务器要求身份验证，验证需要是一个connection-level challange(比如SSL),NSURLSession会调用下面的代理方法</p>
+<ul>
+<li>对于session-level challenges－－NSURLAuthenticationMethodNTLM、NSURLAuthenticationMEthodNegotiate、NSURLAuthenticationMethodServerTrust,NSURLSession对象调用代理的<em>URLSession:didReceiveChallenge:completionHandler:</em>方法。如果你的app不提供代理方法，session对象会调用task代理的<em>URLSession:didReceiveChallenge:completionHandler:</em>方法来处理challenge。</li>
+<li><p>对于非session-level的challenge，session对象调用URLSession:task:didReceiveChallenge:completionHandler:方法来处理。如果你的app提供给session一个代理并且你需要处理认证，你必须要么在task level上处理认证或者提供一个task level的handler，这个handler每次都调用session handler。Session代理的<em>URLSession:didReceiveChallenge:completionHandler:</em>方法不会在非session level上调用。</p>
+<p> 如果upload任务的认证失败，如果task的数据是stream提供，NSURLSession对象调用代理的URLSession:task:needNewBodyStream:方法。代理必须提供新的NSInputStream独享，给请求提供body data。</p>
+</li>
+</ul>
+</li>
+<li><p>一旦接收到HTTP重定向回复，NSURLSession对象调用代理的<em>URLSession:task:willPerformHTTPRedirection:newRequest:completionHandler:</em>方法。代理方法使用提供的NSURLRequest(跟随重定向)对象或一个新的Request(重定向到一个不同的URL)对象来调用completion Handler或nil。</p>
+<ul>
+<li>如果跟随重定向，回到步骤4</li>
+<li>如果代理没有实现这个方法，the redirect is followed up to the maximum number of redirects</li>
+</ul>
+</li>
+</ol>
+<ol>
+<li>对于一个下载任务（dowloadTaskWithResumedata:或downloadTaskWithResumeData:completionHnadler:创建），NSURLSession调用代理的<em>URLSession:downloadTask:didResumeAtOffset:expectedTotalBytes:</em>方法</li>
+<li><p>对于data任务，session对象调用代理的<em>URLSession:dataTask:didReceiveResponse:completionHandler:</em>。决定是否将data task转换为download task，然后调用完成回调继续接收数据或下载数据。  </p>
+<p> 如果你的app选择将data task转换成download task，NSURLSession调用代理的<em>URLSession:dataTask:didBecomeDownloadTask:</em>。调用完毕之后，代理不再从data task接收回调，而是从download task接收回调。</p>
+</li>
+<li>如果任务使用uploadTaskWithStreamdRequest:创建，session对象调用代理的URLSession:task:needNewBodyStream:方法提供body数据</li>
+<li>在upload body content后，代理会定期接收到<em>URLSession:task:didSendBodyData:totalBytesSent:totalBytesExpectedToSend:</em>回调来报告进度</li>
+<li>在服务端传输期间，task代理定期接收回调来报告传输进度。对于下载热舞，session调用<em>URLSession:downloadTask:didWriteData:totalBytesWritten:totalBytesExpectedToWrite:</em>。对于data任务，session调用<em>URLSession:dataTask:didReceiveData:</em>。</li>
+<li>对于data任务，session对象调用<em>URLSession:dataTask:willCacheResponse:completionHandler:</em>。你的app决定是否要进行缓存，如果没有提供这个代理方法，默认行为是使用配置对象的缓存策略。</li>
+<li>如果下载任务成功完成，session对象会调用任务的<em>URLSession:downloadTask:didFinishDownlingToURL:</em>方法，提供一个临时的文件位置。你必须读取这个文件或者将它移动到一个永久的位置。</li>
+<li><p>当任意一个task完成时，session调用代理的<em>URLSession:task:didCompleteWithError:</em>方法。</p>
+<p>如果任务失败，大多数app都会重试，直到用户取消或服务器返回说请求永远不可能成功。但是，你的app不应该立刻重试，它应该使用reachability APIs来决定服务端是否可达，在可达性改变时是否创建一个新的请求。</p>
+<p>如果下载任务可以回复，NSError对象的userInfo字典包含<em>NSURLSessionDownloadTaskResumeData</em>值的key。你的app应该将这个值传递给<em>downloadTaskWithResumeData:</em>或<em>downloadTaskWithResumeData:completionHandler:</em>来创建一个新的下载任务。</p>
+<p>如果任务不能恢复，你的app应该创建一个新的下载任务，从新开始任务。</p>
+<p>不管哪种情况，如果传输是非服务器错误，去步骤3.</p>
+</li>
+<li><p>如果回复是multipart encoded，session必须再次调用代理的<em>didReceiveResponse:</em>。如果是这样，去步骤7</p>
+</li>
+<li><p>当你不再需要session，调用<em>invalidateAndCancel</em>或<em>finishTaskAndInvalidate</em>。</p>
+<p>在取消所有的session后，当所有的任务都取消或完成，session会发送<em>URLSession:didBecomeInvalidateWithError:</em>消息。当代理方法返回，session会移除对delegate的引用。</p>
+<blockquote>
+<p>注意：session对象会强引用delegate，直到你的app显式invalidate这个session。如果不这样，就会内存泄漏。 </p>
+</blockquote>
+</li>
+</ol>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-NSURLSession-概述" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
