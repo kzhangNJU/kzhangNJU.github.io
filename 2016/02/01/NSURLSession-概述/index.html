@@ -18,7 +18,7 @@ URL加载在URL载入系统中的最常用的类使得你的app能够提在一�
 URL加载在URL载入系统中的最常用的类使得你的app能够提在一个url的源提取内容。
 
 在iOS7以">
-<meta property="og:updated_time" content="2016-02-02T02:39:11.000Z">
+<meta property="og:updated_time" content="2016-02-14T06:59:50.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NSURLSession概述">
 <meta name="twitter:description" content="概述URL载入系统包括了加载URL的类以及一些重要的辅助类。这些主要的辅助类有五大类：protocol support、autentication and credentials、cookie storage、configuration management和cache managerment。
@@ -286,7 +286,7 @@ URL加载在URL载入系统中的最常用的类使得你的app能够提在一�
 <p>在iOS中，当后台传输完成或需要credential时，如果你的app不再运行，iOS会在后台自动重新登录你的app，调用application:handleEventsForBackgroundURLSession:completionHandler:方法。这个调用提供了引起app重启的session的标识符。你的app应该存储完成回调，用这个标识符创建一个后台配置对象，用这个配置对象创建session。这个新的session会自动与这个后台活动相关联。随后，当session完成最后一个后台下载任务，它会向session代理发送：URLSessionDidFinisheEventsForBackgroundURLSession:消息。你的session代理应该调用存储的完成回调。在iOS下，当用户重新登录app，你的app应该立刻创建后台配置对象，使用app运行时还在运行的session标识符，然后针对每个配置对象创建一个session。这些新的session会自动与正在进行的后台活动相关联。<br>如果任何一个task在app挂起时完成，代理的URLSession:downloadTask:didFinishDownloadingToURL:方法会被调用。</p>
 <p>后台的上传和下载任务会自动重试。没必要使用reachability API来测试网络的连通性。</p>
 <h3 id="Life_cycle_u548CDelegate_Interaction"><a href="#Life_cycle_u548CDelegate_Interaction" class="headerlink" title="Life cycle和Delegate Interaction"></a>Life cycle和Delegate Interaction</h3><p>针对你使用NSURLSession类做的事情，了解session的生命周期可能对你有所帮助，包括session如何与它的代理进行交互，delegate调用的顺序，当服务器返回重定向时发生了什么，当app恢复一个失败的下载时发生了什么，等等。</p>
-<h3 id="NSCopying_u884C_u4E3A"><a href="#NSCopying_u884C_u4E3A" class="headerlink" title="NSCopying行为"></a>NSCopying行为</h3><p>Session和task对戏那个服从NSCopying协议：</p>
+<h3 id="NSCopying_u884C_u4E3A"><a href="#NSCopying_u884C_u4E3A" class="headerlink" title="NSCopying行为"></a>NSCopying行为</h3><p>Session和task对象服从NSCopying协议：</p>
 <ul>
 <li>当你的app拷贝一个session或task对象，你获得同一个对象。</li>
 <li>当你app拷贝一个配置对象，你得到一个崭新的拷贝，你可以进行修改</li>
