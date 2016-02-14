@@ -184,7 +184,7 @@
   
     <div class="article-meta">
       <a href="/2016/02/14/ClassCluster/" class="article-date">
-  	<time datetime="2016-02-14T04:47:09.000Z" itemprop="datePublished">2016-02-14</time>
+  	<time datetime="2016-02-14T05:22:09.000Z" itemprop="datePublished">2016-02-14</time>
 </a>
     </div>
   
@@ -193,9 +193,20 @@
       <input type="hidden" class="isFancy" />
     
     
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/02/14/ClassCluster/">Class Cluster基本概念</a>
+    </h1>
+  
+
+      </header>
+      
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Class_Cluster"><a href="#Class_Cluster" class="headerlink" title="Class Cluster"></a>Class Cluster</h1><h1 id="Class_Cluster-1"><a href="#Class_Cluster-1" class="headerlink" title="Class Cluster"></a>Class Cluster</h1><p>Class Cluster是这样是一个结构，它将一些私有的、具体的子类组合在一个公共的、抽象的superclass下。通过这种方式组织，能给用户提供一个简化的借口，用户只能看见这个结构的公共可见部分。抽象类会调用子类的私有类最适合的方法来执行一个特定的任务。</p>
+        <h1 id="Class_Cluster"><a href="#Class_Cluster" class="headerlink" title="Class Cluster"></a>Class Cluster</h1><p>Class Cluster是这样是一个结构，它将一些私有的、具体的子类组合在一个公共的、抽象的superclass下。通过这种方式组织，能给用户提供一个简化的借口，用户只能看见这个结构的公共可见部分。抽象类会调用子类的私有类最适合的方法来执行一个特定的任务。</p>
 <p>比如，许多Cocoa类都是Class Cluster，像NSArray、NSString和NSDictionary。内部的数据存储有很多中方式，对于特定的实例，抽象类会基于初始化实例的数据选择最高效的类。</p>
 <p>Cluster Class的使用方式跟其他类没有什么区别。只是在实现上，当你创建公共类的实例时，这个类会基于你调用的创建方法返回适合的子类的实例。（你不能选择实例的实际类。）</p>
 <p>以NSString为例，你可以使用三种不同的方式来创建string对象：<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSString</span> *string1 = <span class="string">@"UTF32.txt"</span>;</span><br><span class="line"><span class="built_in">NSString</span> *string2 = [<span class="built_in">NSHomeDirectory</span>() stringByAppendingPathComponent:string1];</span><br><span class="line"><span class="built_in">NSTextStorage</span> *storage = [[<span class="built_in">NSTextStorage</span> alloc] initWithString:string2];</span><br><span class="line"><span class="built_in">NSString</span> *string3 = [storage string];</span><br></pre></td></tr></table></figure></p>
