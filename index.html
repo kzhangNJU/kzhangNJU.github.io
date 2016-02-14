@@ -568,7 +568,7 @@
 <blockquote>
 <p><em>注意：</em>因为app必须提供<em>URLSession:task:needNewBodyStream:</em>代理方法来使用stream，这个技术跟自定义的代理不兼容。</p>
 </blockquote>
-<h2 id="23__u4F7F_u7528Download_Task_u4E0A_u4F20File"><a href="#23__u4F7F_u7528Download_Task_u4E0A_u4F20File" class="headerlink" title="# 使用Download Task上传File"></a># 使用Download Task上传File</h2><p>要使用下载任务来上传内容，你的app必须提供NSData或body stream作为NSURLRequest对象的一部分。</p>
+<h3 id="u4F7F_u7528Download_Task_u4E0A_u4F20File"><a href="#u4F7F_u7528Download_Task_u4E0A_u4F20File" class="headerlink" title="使用Download Task上传File"></a>使用Download Task上传File</h3><p>要使用下载任务来上传内容，你的app必须提供NSData或body stream作为NSURLRequest对象的一部分。</p>
 <p>如果你使用stream提供数据，你的app必须提供URLSession:task:needNewBodyStream:代理方法提供一个新的body stream（一旦认证失败）。</p>
 <p>Download task就像data task一样，出了返回数据的方式不同。</p>
 <h2 id="u5904_u7406iOS_u540E_u53F0_u6D3B_u52A8"><a href="#u5904_u7406iOS_u540E_u53F0_u6D3B_u52A8" class="headerlink" title="处理iOS后台活动"></a>处理iOS后台活动</h2><p>如果你在iOS使用NSURLSession，在下载完成时你的app会自动重新登录。你的app的application:handleEventsForBackgroundURLSession:completionHandler:方法负责重新创建合适的session，存储完成handler，以及在session调用URLSessionDidFinishEventsForBackgroundURLSession: 方法时调用这个完成handler.</p>
