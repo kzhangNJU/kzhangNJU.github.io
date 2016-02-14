@@ -26,7 +26,7 @@
 根据服务器返回的MIME类型或者其他规则，决定哪个传输该下载或展示
 从body stream上传数据
 程序上限制缓存">
-<meta property="og:updated_time" content="2016-02-05T05:23:49.000Z">
+<meta property="og:updated_time" content="2016-02-14T00:27:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Life Cycle Of NSURLSession">
 <meta name="twitter:description" content="URL Session的生命周期你可以使用两种方式使用NSURLSession的API：使用系统提供的代理或你自己的代理。在下面情况下，你需要使用自定义的代理：
@@ -264,7 +264,7 @@
 </li>
 <li>当你的app不需要session时，调用<em>invalidateAndCancel</em>或<em>finishTaskAndInvalidate</em>方法来invalidate任务。</li>
 </ol>
-<p>##自定义代理的URL Session的生命周期<br>通常情况下使用NSURLSession API时不需要提供代理。但是如果你要进行后台的上传或下载，身份认证，已经缓存策略的修改，你必须提供代理，代理要服从session代理协议、一个或多个task代理协议<br>或两者的组合。这些代理的任务有：</p>
+<h2 id="u81EA_u5B9A_u4E49_u4EE3_u7406_u7684URL_Session_u7684_u751F_u547D_u5468_u671F"><a href="#u81EA_u5B9A_u4E49_u4EE3_u7406_u7684URL_Session_u7684_u751F_u547D_u5468_u671F" class="headerlink" title="自定义代理的URL Session的生命周期"></a>自定义代理的URL Session的生命周期</h2><p>通常情况下使用NSURLSession API时不需要提供代理。但是如果你要进行后台的上传或下载，身份认证，已经缓存策略的修改，你必须提供代理，代理要服从session代理协议、一个或多个task代理协议<br>或两者的组合。这些代理的任务有：</p>
 <ul>
 <li><p>当使用download task时，NSURLSession对象使用你提供的代理给你的app提供一个file URL，从这个URL可以获取下载数据</p>
 <p>  对于所有的后台上传和下载都需要代理。这些代理必须提供所有NSURLSessionDownloadDelege协议规定的方法。</p>
