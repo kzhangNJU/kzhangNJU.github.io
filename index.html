@@ -180,6 +180,67 @@
 
       <div class="body-wrap">
   
+    <article id="post-iOS Little Tips" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/09/iOS Little Tips/" class="article-date">
+  	<time datetime="2016-03-09T10:58:04.000Z" itemprop="datePublished">2016-03-09</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/09/iOS Little Tips/">NSURLSession概述</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="u76D1_u6D4BtableViewCell_u4E2D_u7684_u5B50View_u4E8B_u4EF6"><a href="#u76D1_u6D4BtableViewCell_u4E2D_u7684_u5B50View_u4E8B_u4EF6" class="headerlink" title="监测tableViewCell中的子View事件"></a>监测tableViewCell中的子View事件</h2><p>假如Cell中有子View可以接收事件，如何知道这个子View属于哪个Cell呢？</p>
+<p>首先可以想到的是利用Block，每个Cell初始化时添加一个block，将indexpath作为参数传入，这样点击时就可以利用indexPath取得点击的那个Model。</p>
+<p>这种方式在一般情况下没什么问题，但是在使用tableView的插入或删除cell的方法时就有问题了。因为在删除或插入过程中，tableView的Cell并不一定会reload的，因此作为参数传入cell block的indexPath就已经过时了，会出现点击事件错乱的现象。</p>
+<p>推荐使用一下方法<a href="http://stackoverflow.com/questions/1802707/detecting-which-uibutton-was-pressed-in-a-uitableview?lq=1" target="_blank" rel="external">StackOverFlow</a>，以Button为例：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[button addTarget:self action:@selector(checkButtonTapped:) forControlEvents:UIControlEventTouchUpInside];&#10;&#10;- (void)checkButtonTapped:(id)sender&#10;&#123;&#10;    CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];&#10;    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];&#10;    if (indexPath != nil)&#10;    &#123;&#10;     ...&#10;    &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Storyboard_Segue_u7684_u4F7F_u7528_u65B9_u6CD5"><a href="#Storyboard_Segue_u7684_u4F7F_u7528_u65B9_u6CD5" class="headerlink" title="Storyboard Segue的使用方法"></a>Storyboard Segue的使用方法</h2><p>在ViewController中实现下面的方法：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)prepareForSegue:(<span class="built_in">UIStoryboardSegue</span> *)segue sender:(<span class="keyword">id</span>)sender</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// Make sure your segue name in storyboard is the same as this line</span></span><br><span class="line">    <span class="keyword">if</span> ([[segue identifier] isEqualToString:<span class="string">@"YOUR_SEGUE_NAME_HERE"</span>])</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// Get reference to the destination view controller</span></span><br><span class="line">        YourViewController *vc = [segue destinationViewController];</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Pass any objects to the view controller here, like...</span></span><br><span class="line">        [vc setMyObjectHere:object];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用performSegueWithIdentifier:sender:方法来触发view的转换，比如：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">IBAction</span>)buttonPressed:(<span class="keyword">id</span>)sender</span><br><span class="line">&#123;</span><br><span class="line">    [<span class="keyword">self</span> performSegueWithIdentifier:<span class="string">@"MySegue"</span> sender:sender];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// This will get called too before the view appears</span></span><br><span class="line">- (<span class="keyword">void</span>)prepareForSegue:(<span class="built_in">UIStoryboardSegue</span> *)segue sender:(<span class="keyword">id</span>)sender</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> ([[segue identifier] isEqualToString:<span class="string">@"MySegue"</span>]) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Get destination view</span></span><br><span class="line">        SecondView *vc = [segue destinationViewController];</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Get button tag number (or do whatever you need to do here, based on your object</span></span><br><span class="line">        <span class="built_in">NSInteger</span> tagIndex = [(<span class="built_in">UIButton</span> *)sender tag];</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Pass the information to your destination view</span></span><br><span class="line">        [vc setSelectedButton:tagIndex];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-AFNetworking3-0源码" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
