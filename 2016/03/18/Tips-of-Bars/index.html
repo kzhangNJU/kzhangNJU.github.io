@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>Tips of Bars | 李宝库</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Bars介绍一下iOS UI中的各种Bar，以及一些关键属性和注意事项。
+Status BarStatus Bar默认是透明的，当显示时总是处于屏幕的最顶端。
+
+你可以在全局设置status bar的样式，也可以在每个View Controller中单独设置合适的样式。
+
+不要创建自定义的status bar。 用户会一直以来系统提供的status bar，尽管你可以隐藏它，但是自定义一个来代替它">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tips of Bars">
+<meta property="og:url" content="http://yoursite.com/2016/03/18/Tips-of-Bars/index.html">
+<meta property="og:site_name" content="李宝库">
+<meta property="og:description" content="Bars介绍一下iOS UI中的各种Bar，以及一些关键属性和注意事项。
+Status BarStatus Bar默认是透明的，当显示时总是处于屏幕的最顶端。
+
+你可以在全局设置status bar的样式，也可以在每个View Controller中单独设置合适的样式。
+
+不要创建自定义的status bar。 用户会一直以来系统提供的status bar，尽管你可以隐藏它，但是自定义一个来代替它">
+<meta property="og:updated_time" content="2016-03-18T05:58:56.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Tips of Bars">
+<meta name="twitter:description" content="Bars介绍一下iOS UI中的各种Bar，以及一些关键属性和注意事项。
+Status BarStatus Bar默认是透明的，当显示时总是处于屏幕的最顶端。
+
+你可以在全局设置status bar的样式，也可以在每个View Controller中单独设置合适的样式。
+
+不要创建自定义的status bar。 用户会一直以来系统提供的status bar，尽管你可以隐藏它，但是自定义一个来代替它">
+  
+    <link rel="alternative" href="/atom.xml" title="李宝库" type="application/atom+xml">
+  
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/img/favicon.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">李宝库</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>標籤</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>關於</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">奥巴马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">卡卡的美丽传说</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">本泽马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">吉格斯的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">习大大大不同</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">托蒂的博客</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">我是谁，我从哪里来，我到哪里去？我就是我，是颜色不一样的吃货…</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">李宝库</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+			
+				<img lazy-src="/img/favicon.jpg" class="js-avatar">
+			
+			</div>
+			<hgroup>
+			  <h1 class="header-author">李宝库</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-Tips-of-Bars" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/18/Tips-of-Bars/" class="article-date">
+  	<time datetime="2016-03-18T05:58:00.000Z" itemprop="datePublished">2016-03-18</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Tips of Bars
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Bars"><a href="#Bars" class="headerlink" title="Bars"></a>Bars</h1><p>介绍一下iOS UI中的各种Bar，以及一些关键属性和注意事项。</p>
+<h2 id="Status_Bar"><a href="#Status_Bar" class="headerlink" title="Status Bar"></a>Status Bar</h2><p>Status Bar默认是透明的，当显示时总是处于屏幕的最顶端。</p>
+<blockquote>
+<p>你可以在全局设置status bar的样式，也可以在每个View Controller中单独设置合适的样式。</p>
+</blockquote>
+<p><strong>不要创建自定义的status bar。</strong> 用户会一直以来系统提供的status bar，尽管你可以隐藏它，但是自定义一个来代替它并不是很合适。</p>
+<p><strong>不要将滚动内容穿过status bar。</strong> 确保status bar有一个背景来遮盖它下面的内容。下面有一些方法能够做到这点：</p>
+<ul>
+<li>使用navigation controller。navigation controller会自动显示status bar的背景，确保它的内容视图不会出现在status bar的下面。</li>
+<li>创建一个nondistracting的自定义图片，比如gradient，让它显示在status bar后面。要确保这个image保持在status bar后面，你可以使用view controller将image置于scroll view的上面。</li>
+<li>定位内容避免与status bar的区域重叠。这个区域由<strong>statusBarFrame</strong>属性定义。</li>
+</ul>
+<p><strong>避免将一些引人注意的内容放在status bar后面。</strong></p>
+<p><strong>谨慎隐藏status bar。</strong>这样用户必须切出app来查看时间。</p>
+<h2 id="NavigationBar"><a href="#NavigationBar" class="headerlink" title="NavigationBar"></a>NavigationBar</h2><p>iOS7下，navigation bar的<strong>tintColor</strong>属性会影响back indicator image，button titles和button image的颜色。<strong>barTintColor</strong>属性只影响bar自身的颜色。除此之外，navigation bar默认是translucent（半透明）的。关闭半透明不会影响buttons，因为它们没有背景。</p>
+<p>一般情况下，当属性受bar metrics影响时，一定要设置<strong>UIBarMetricsDefault</strong>的值。</p>
+<p><strong>backIndicatorImage</strong>用来设置返回的image，如果你要自定义，必须也设置<strong>backIndicatorTransitionMaskImage</strong>属性。这个属性用于在push或pop转换时，作为内容的mask。</p>
+<p><strong>Translucent</strong>属性默认为YES。如果navigation bar自定了背景图片，那么如果这个图片的某个像素的alpha值小于1，那么translucent的值为默认值YES，否则为NO。</p>
+<p><strong>UIBarPositioning</strong>协议定义了bar在iOS设备上的定位方式。Bars可以在围绕它的View的上下左右，在上方时，bar会紧邻status bar，这时Bar会伸展它的背景直到屏幕顶端，这样背景就穿过了status bar。</p>
+<p><strong>shadowImage</strong>默认值是nil，使用默认的shadow image。当使用自定义shadow image时，必须使用<strong>setBackgroundImage:forMetrics:</strong>方法设置背景图片。如果使用的默认背景图，那么shadow image也就是默认的，你设置了也没用。</p>
+<h3 id="NavigationItem"><a href="#NavigationItem" class="headerlink" title="NavigationItem"></a>NavigationItem</h3><p>UINavigationItem对象管理展示在UINavigationBar上面的buttons和views。当构建一个navigation界面时，每个被压进navigation栈中的view controller都必须有一个UINavigationItem对象，这个对象包含了它想在NavigationBar上想展示的view和button。</p>
+<p>NavigationItem总是反应与它关联的ViewController的信息。Navigation Item必须提供一个title用来供ViewController在栈顶时展示。除此之外，item也可以包含额外的buttons，在navigation bar的右边显示。你可以指定一些buttons和views在navigation bar的左侧显示（使用leftBarButtonItems），但是navigation controller只有在有足够空间时才会显示。</p>
+<p><em>backBarButtonItem</em>属性用来展示当前controller压进stack时的返回按钮。</p>
+<p>当指定navigation item的buttons时，你必须使用UIBarButtonItem对象。如果想在navigation bar上展示自定义view，你必须将这些view包裹进UIBarButtonItem对象上。</p>
+<p><em>leftItemsSupplementBackButton</em>决定左侧的items是否呈现在back button边，正常情况下自定义的left button items会导致back button被移除。将这这个属性设置为YES，left button items会被排列在back button的右边。设置为NO，这些items会覆盖back button。默认值是NO。</p>
+<blockquote>
+<p><em>hidesBackButton</em>属性始终决定back button是否会显示 </p>
+</blockquote>
+<h2 id="UISearchBar"><a href="#UISearchBar" class="headerlink" title="UISearchBar"></a>UISearchBar</h2><p><strong>searchBarStyle</strong>：这个属性可以和barStyle一起使用。<strong>UISearchBarStyleMinimal</strong>不提供默认的背景颜色或图片除非你自定义。自定义背景和search field的优先级会高于这个属性。</p>
+<ul>
+<li>UISearchBarStyle 默认</li>
+<li>UISearchbarStyleProminet search bar背景半透明，search Field不透明</li>
+<li>UISearchBarStyleMinimal search Bar没有背景，search field半透明</li>
+</ul>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/03/09/iOS Little Tips/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">监听TableViewCell子View事件和Segue使用</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="Tips-of-Bars" data-title="Tips of Bars" data-url="http://yoursite.com/2016/03/18/Tips-of-Bars/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 李宝库
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>
