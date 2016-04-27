@@ -180,6 +180,91 @@
 
       <div class="body-wrap">
   
+    <article id="post-ImproveDrawingPerformance" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/04/27/ImproveDrawingPerformance/" class="article-date">
+  	<time datetime="2016-04-27T02:36:02.000Z" itemprop="datePublished">2016-04-27</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/04/27/ImproveDrawingPerformance/">提升绘制性能</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="u63D0_u5347_u7ED8_u5236_u6027_u80FD"><a href="#u63D0_u5347_u7ED8_u5236_u6027_u80FD" class="headerlink" title="提升绘制性能"></a>提升绘制性能</h1><p>绘制是一个相对昂贵的开销，优化绘制的代码是开发过程中的重要步骤。</p>
+<ul>
+<li>Draw minimally 每个更新循环，你应该只更新view改变的部分。如果你使用drawRect:方法，使用update rectangle来限制绘制区域。对于OpenGL绘制，你必须自己追踪更新。</li>
+<li>谨慎调用setNeedsDisplay: 如果你调用这个方法，不要只传入整个view的rectangle，只传入需要重新绘制的区域。</li>
+<li>尽量可能设置view为opague。组合opague的view开销会比透明的少很多。要让view不透明，view的内容必须不包含任何透明度，且view的opague属性为真。</li>
+<li>滑动过程中重用view和cell。滚动中应该尽可能避免创建新的view。创建新的view的花费会减少更新屏幕的可用时间，导致滚动不流畅。</li>
+<li>通过修改转换矩阵来重用path。通过修改当前转换矩阵，你可以只用一个path在屏幕的不同地方进行绘制</li>
+<li>滚动过程中避免清空前面的内容。默认情况下，UIKit更新一片区域前，会先清除当前的context buffer，然后再调用drawRect:。要禁止这种行为，可以将clearsContextBeforeDrawing属性设置为No。</li>
+</ul>
+<h2 id="Instruments_u7684_u6027_u80FD_u5206_u6790"><a href="#Instruments_u7684_u6027_u80FD_u5206_u6790" class="headerlink" title="Instruments的性能分析"></a>Instruments的性能分析</h2><p>Core Animation中的几个Debug选项的含义：</p>
+<ul>
+<li>Color Blended Layers.显示混合的layers。多个view layers混合在一起时会被红色标亮。Blended view layers是引起table滚动卡顿的主要原因。</li>
+<li>Color Hits Green and Misses Red。将views标记为绿色或红色，可以使用cached rasterization的view被标记为绿色。</li>
+<li>Color Copied Images。</li>
+<li>Color Misaligned Images。洋红色，源像素跟目标像素不匹配的情况。</li>
+<li>Color offscreen－Rendered Yellow。</li>
+<li>Flash updated regions。</li>
+</ul>
+<h2 id="Offscreen_rendering_uFF0FRendering_on_the_CPU"><a href="#Offscreen_rendering_uFF0FRendering_on_the_CPU" class="headerlink" title="Offscreen rendering／Rendering on the CPU"></a>Offscreen rendering／Rendering on the CPU</h2><p>Offscreen rendering(softwear rendering)：在交给GPU之前，绘制需要让CPU先处理。硬件不会处理text rendering以及mask和shadow。下面的情况会导致Offscreen rendering:</p>
+<ul>
+<li>Layer with a mask</li>
+<li>layer的masksToBounds或view.clipsToBounds为真</li>
+<li>layer的allowsGroupOpactiy和layer opacity少于1</li>
+<li>设置了layer的shadow</li>
+<li>layer的shouldRasterize</li>
+<li>Text</li>
+<li>大多数的drawRect中的CGContext</li>
+</ul>
+<h2 id="Blending"><a href="#Blending" class="headerlink" title="Blending"></a>Blending</h2><ul>
+<li>resizableImage会导致blending</li>
+<li>opague为NO或背景alph不是1</li>
+<li>layer.content或UIImageView的Image有alpha通道</li>
+</ul>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Tips-of-Bars" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
