@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>转场动画概述 | 李宝库</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="自定义转场动画Transition Animation Sequence一个专场动画其实就是交换两个controller的内容。有两种类型的转换:presentation和dismissal。Presentation转换向你的APP的视图结构中增加一个新的controller，dismissal 则是从结构中移除一个或多个controller。
+需要多个对象才能实现一个专场动画。UIKit提供了这">
+<meta property="og:type" content="article">
+<meta property="og:title" content="转场动画概述">
+<meta property="og:url" content="http://yoursite.com/2016/07/25/Transition/index.html">
+<meta property="og:site_name" content="李宝库">
+<meta property="og:description" content="自定义转场动画Transition Animation Sequence一个专场动画其实就是交换两个controller的内容。有两种类型的转换:presentation和dismissal。Presentation转换向你的APP的视图结构中增加一个新的controller，dismissal 则是从结构中移除一个或多个controller。
+需要多个对象才能实现一个专场动画。UIKit提供了这">
+<meta property="og:updated_time" content="2016-07-25T06:10:09.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="转场动画概述">
+<meta name="twitter:description" content="自定义转场动画Transition Animation Sequence一个专场动画其实就是交换两个controller的内容。有两种类型的转换:presentation和dismissal。Presentation转换向你的APP的视图结构中增加一个新的controller，dismissal 则是从结构中移除一个或多个controller。
+需要多个对象才能实现一个专场动画。UIKit提供了这">
+  
+    <link rel="alternative" href="/atom.xml" title="李宝库" type="application/atom+xml">
+  
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/img/favicon.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">李宝库</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>標籤</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>關於</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">奥巴马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">卡卡的美丽传说</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">本泽马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">吉格斯的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">习大大大不同</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">托蒂的博客</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">我是谁，我从哪里来，我到哪里去？我就是我，是颜色不一样的吃货…</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">李宝库</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+			
+				<img lazy-src="/img/favicon.jpg" class="js-avatar">
+			
+			</div>
+			<hgroup>
+			  <h1 class="header-author">李宝库</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-Transition" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/07/25/Transition/" class="article-date">
+  	<time datetime="2016-07-25T05:58:39.000Z" itemprop="datePublished">2016-07-25</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      转场动画概述
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="u81EA_u5B9A_u4E49_u8F6C_u573A_u52A8_u753B"><a href="#u81EA_u5B9A_u4E49_u8F6C_u573A_u52A8_u753B" class="headerlink" title="自定义转场动画"></a>自定义转场动画</h1><h2 id="Transition_Animation_Sequence"><a href="#Transition_Animation_Sequence" class="headerlink" title="Transition Animation Sequence"></a>Transition Animation Sequence</h2><p>一个专场动画其实就是交换两个controller的内容。有两种类型的转换:presentation和dismissal。Presentation转换向你的APP的视图结构中增加一个新的controller，dismissal 则是从结构中移除一个或多个controller。</p>
+<p>需要多个对象才能实现一个专场动画。UIKit提供了这个些转场需要的对象的默认版本，你可以自定义其中的一些或者全部。如果你选择了正确的自定义集合，那么只需要很少的代码量就可以实现你想要的效果。如果利用好了UIKit提供的现有代码，就算事包含交互的动画也是很容易实现的。</p>
+<h3 id="Transitioning_Delegate__uFF08_u8F6C_u573A_u4EE3_u7406_uFF09"><a href="#Transitioning_Delegate__uFF08_u8F6C_u573A_u4EE3_u7406_uFF09" class="headerlink" title="Transitioning Delegate （转场代理）"></a>Transitioning Delegate （转场代理）</h3><p>转场代理事转场动画和自定义展示的起点。转场代理是你自定义的对象，需要服从<em>UIViewControllerTransitioningDelegate</em>协议。它的工作就是提供UIKit下列对象：</p>
+<ul>
+<li><strong>Animator objects.</strong> 一个animator对象负责创建展示或隐藏controller所需要的动画。转场代理能够提供不同的animator对象，animator对象要服从<em>UIViewControllerAnimatedTransitioning</em>协议。</li>
+<li><p><strong>Interactive animator objects.</strong>交互式的animator对象使用点击事件或者收拾来驱动转场的时机。交互式的animator对象要服从<em>UIViewControllerInteractiveTransitioning</em>协议。</p>
+<p>  创建一个交互式的animator对象最简单的方式就是继承<em>UIPercentDrivenInteractiveTransition</em>类，向子类中添加事件处理的代码。这个类能够控制动画的时机。如果你创建自己的交互式animator，你必须自己渲染动画的每一帧。</p>
+</li>
+<li><p><strong>Presentation Controller</strong>.Presentation Controller管理controller在屏幕上的显示风格。</p>
+</li>
+</ul>
+<p>给一个view controller的<em>transitioningDelegate</em>属性赋给你的专场代理，这样UIKit就知道你想实现自定义的转场和展示。你的代理对象能够选择提供哪些对象如果你不提供animator对象，UIKit使用<em>modalTransitionStyle</em>中的标准的转场动画。</p>
+<h3 id="The_Custom_Animation_Sequence"><a href="#The_Custom_Animation_Sequence" class="headerlink" title="The Custom Animation Sequence"></a>The Custom Animation Sequence</h3><p>当正在的展示的view Controller的<em>transitioningDelegate</em>属性包含一个有效对象时，UIKit使用你提供的自定义的animator对象来展示controller。当准备执行展示时，UIKit调用<em>animationControllerForPresentedController:presentingController:sourceController:</em>方法来获取自定义的animator对象。如果这个对象有效，UIKit会执行下面的步骤:</p>
+<ol>
+<li>UIKit调用转场代理的<em>interactionControllerForPresention:</em>方法来查看是否有有效的interactive animator对象。如果这个方法返回nil，UIKit执行动画时不使用用户交互。</li>
+<li>UIKit调用animator对象的<em>transitionDuration:</em>方法来获得动画持续时间。</li>
+<li><p>UIKit调用合适的方法来开始动画:</p>
+<ul>
+<li>对于非交互式的动画，UIKit调用animator对象的<em>animateTranstion:</em>方法。</li>
+<li>对于交互式动画，UIKit调用交互式animator的<em>startInteractiveTransition:</em>方法。</li>
+</ul>
+</li>
+<li><p>UIKit等待animator对象调用<em>completeTransiton:</em>方法。自定义的animator会在动画结束时调用这个方法，一般是在动画结束的回调中。调用这方法来结束转场，告诉UIKit可以执行<em>presentViewController:animated:completion:</em>的完成回调和animao］tor的<em>animationEnded:</em>方法。</p>
+</li>
+</ol>
+<p>当关闭一个view controller时，UIKit调用<em>animationControllerForDismissedController:</em>方法，执行下面的步骤：</p>
+<ol>
+<li>UIKit调用转场代理的<em>interactionCOntrollerForDismissal:</em>方法查看有没有可用的interacive animator。如果这个方法返回nil，UIKit执行不带用户交互的动画。</li>
+<li>UIKit调用<em>transitionDuration:</em>方法获得动画时间。</li>
+<li>UIKit调用合适的方法来开启动画：<ul>
+<li>对于非交互动画，UIKit调用<em>animateTransition:</em>方法</li>
+<li>对于交互式动画，UIKit调用<em>startInteractiveTransition:</em>方法。</li>
+</ul>
+</li>
+<li>UIKit等待animator对象调用<em>completeTransiton:</em>方法。<br>自定义的animator会在动画结束时调用这个方法，一般是在动画结束的回调中。调用这方法来结束转场，告诉UIKit可以执行presentViewController:animated:completion:的完成回调和animao］tor的animationEnded:方法。  </li>
+</ol>
+<blockquote>
+<p>　<strong>注意</strong></p>
+<p>在动画结束后调用<em>completeTransition:</em>方法是必须的。只有调用这个方法，UIKit才会结束转场过程，将APP的控制归还。</p>
+</blockquote>
+<h3 id="The_Transitioning_Context_Object"><a href="#The_Transitioning_Context_Object" class="headerlink" title="The Transitioning Context Object"></a>The Transitioning Context Object</h3><p>在转场动画开始前，UIKit会创建一个转换上下文对象，将如何执行动画的信息填写到这个对象中。转场上下文对象是你代码中的重要一部分。它实现了<em>UIViewControllerContextTranstitioning</em>协议，存储转换过程中controller和view的引用。它也存储了如果执行转场的信息，包括动画是不是可交互的。</p>
+<blockquote>
+<p><strong>注意</strong></p>
+<p>当设置自定义动画时，使用转场上下文对象中存储的对象和数据，而不是你自己管理的缓存的信息。转场可能在各种情况下发生，其中某些情况会改变动画的参数。转场的上下文对象保障你需要的转场信息是正确的，而你自己缓存的信息可能是过时的。</p>
+</blockquote>
+<h3 id="The_Transition_Coordinator"><a href="#The_Transition_Coordinator" class="headerlink" title="The Transition Coordinator"></a>The Transition Coordinator</h3><p>不管是内置的转场还是自定义的转场，UIKit都会创建一个transition coordinator对象来管理你需要的额外的动画信息。除了presentation和dismissal，转场还可能发生在interface rotation或frame改变时。这些转场都代表着view继承结构的变化。transition coordinator用来追踪view继承结构的变化。一个transition coordinator只存活于转场过程中。</p>
+<h2 id="u4F7F_u7528_u81EA_u5B9A_u4E49_u52A8_u753B_u5C55_u793A_u89C6_u56FE_u63A7_u5236_u5668"><a href="#u4F7F_u7528_u81EA_u5B9A_u4E49_u52A8_u753B_u5C55_u793A_u89C6_u56FE_u63A7_u5236_u5668" class="headerlink" title="使用自定义动画展示视图控制器"></a>使用自定义动画展示视图控制器</h2><p>步骤如下：</p>
+<ol>
+<li>创建你要展示的controller</li>
+<li>创建自定义的转场代理对象，将它赋给controller的<em>transtitioningDelegate</em>属性。</li>
+<li>调用<em>presentViewController:animated:completion:</em>方法来展示view controller。</li>
+</ol>
+<p>当你调用<em>presentViewController:animated:completion</em>时，UIKit会初始化展示过程。展示开始于下一个runloop开始，知道你自定义的animator调用<em>completeTransition:</em>。交互式的转场允许在转场发生时处理点击事件。</p>
+<h2 id="u5B9E_u73B0_u8F6C_u573A_u4EE3_u7406"><a href="#u5B9E_u73B0_u8F6C_u573A_u4EE3_u7406" class="headerlink" title="实现转场代理"></a>实现转场代理</h2><p>转场代理的目的时创建自定义的对象。下面展示了最简单的转场方法的实现，这个例子创建了一个animator对象，大部分的工作是animator处理的。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (id&#60;UIViewControllerAnimatedTransitioning&#62;)&#10;    animationControllerForPresentedController:(UIViewController *)presented&#10;                         presentingController:(UIViewController *)presenting&#10;                             sourceController:(UIViewController *)source &#123;&#10;    MyAnimator* animator = [[MyAnimator alloc] init];&#10;    return animator;</span><br></pre></td></tr></table></figure>
+<h2 id="u5B9E_u73B0_u4F60_u7684Animator_u5BF9_u8C61"><a href="#u5B9E_u73B0_u4F60_u7684Animator_u5BF9_u8C61" class="headerlink" title="实现你的Animator对象"></a>实现你的Animator对象</h2><p>Animator对象要满足<em>UIViewControllerAnimatedTransitioning</em>协议。Animator对象创建一个执行的动画。最关键的方法是<em>animateTransition:</em>，用它来创建实际的动画。动画处理过程大概可以分成下面几个部分：</p>
+<ol>
+<li>获取动画参数</li>
+<li>使用Core Animation或UIView动画方法来创建动画</li>
+<li>清理和结束转场</li>
+</ol>
+<h3 id="u83B7_u53D6_u52A8_u753B_u53C2_u6570"><a href="#u83B7_u53D6_u52A8_u753B_u53C2_u6570" class="headerlink" title="获取动画参数"></a>获取动画参数</h3><p>传递给<em>animateTransition:</em>的上下文转场对象包含了动画所需要的数据。<strong>永远不要食用你自己缓存的信息，或者从你的controller中获取信息</strong>。展示或关闭视图时可能会包含controller之外的对象。比如，一个自定义的展示控制器可能会添加一个背景颜色。上下文转场对象考略到了这些额外的视图和对象，让你进行正确的动画操作。</p>
+<ul>
+<li>调用两次<em>viewControllerForKey:</em>方法来获得转换过程中的from和to两个controller。永远不要假设你知道哪个controller参与转场。UIKit可能会修改controller。</li>
+<li>调用<em>containerView</em>方法来获得动画的superview。将所有的子视图添加到这个视图上。比如，在展示期间，将要展示的视图都加到这个视图上。</li>
+<li>调用<em>viewForKey:</em>方法来获得将被添加或移除的视图。Controller的视图可能不是唯一被添加或移除的视图。</li>
+<li>调用<em>finalFrameForViewController:</em>方法来获得view添加或移除的最终的帧。</li>
+</ul>
+<h3 id="u521B_u5EFA_u8F6C_u573A_u52A8_u753B"><a href="#u521B_u5EFA_u8F6C_u573A_u52A8_u753B" class="headerlink" title="创建转场动画"></a>创建转场动画</h3><p>从转场上下文对象中获取数据来创建动画。</p>
+<p>展示动画：</p>
+<ul>
+<li><em>使用viewControllerForKey:</em>和<em>viewForKey:</em>方法来获取转场的view controller和view。</li>
+<li>设置要”to” view的起始位置。设置动画需要的初始值。</li>
+<li>调用上下文转场对象的<em>finalFrameForViewController:</em>方法获取”to” view的最终位置。</li>
+<li>将”to”view作为子view添加到容器view中</li>
+<li>创建动画<ul>
+<li>在动画block中，将”to”view转换到最终位置。</li>
+<li>在完成block中，调用<em>completeTransition:</em>方法，进行清理工作。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight"><figcaption><span>c</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)animateTransition:(id&#60;UIViewControllerContextTransitioning&#62;)transitionContext &#123;&#10;    // &#33719;&#21462;&#30456;&#20851;&#30340;&#23545;&#35937;&#20449;&#24687;&#10;    UIView *containerView = [transitionContext containerView];&#10;    UIViewController *fromVC = [transitionContext&#10;            viewControllerForKey:UITransitionContextFromViewControllerKey];&#10;    UIViewController *toVC   = [transitionContext&#10;            viewControllerForKey:UITransitionContextToViewControllerKey];&#10; &#10;    UIView *toView = [transitionContext viewForKey:UITransitionContextToViewKey];&#10;    UIView *fromView = [transitionContext viewForKey:UITransitionContextFromViewKey];&#10; &#10;    // &#20026;&#21160;&#30011;&#35774;&#32622;&#21021;&#22987;&#20540;.&#10;    CGRect containerFrame = containerView.frame;&#10;    CGRect toViewStartFrame = [transitionContext initialFrameForViewController:toVC];&#10;    CGRect toViewFinalFrame = [transitionContext finalFrameForViewController:toVC];&#10;    CGRect fromViewFinalFrame = [transitionContext finalFrameForViewController:fromVC];&#10; &#10;    // &#35774;&#32622;&#21160;&#30011;&#21442;&#25968;&#10;    if (self.presenting) &#123;&#10;        // Modify the frame of the presented view so that it starts&#10;        // offscreen at the lower-right corner of the container.&#10;        toViewStartFrame.origin.x = containerFrame.size.width;&#10;        toViewStartFrame.origin.y = containerFrame.size.height;&#10;    &#125;&#10;    else &#123;&#10;        // Modify the frame of the dismissed view so it ends in&#10;        // the lower-right corner of the container view.&#10;        fromViewFinalFrame = CGRectMake(containerFrame.size.width,&#10;                                      containerFrame.size.height,&#10;                                      toView.frame.size.width,&#10;                                      toView.frame.size.height);&#10;    &#125;&#10; &#10;    // Always add the &#34;to&#34; view to the container.&#10;    // And it doesn&#39;t hurt to set its start frame.&#10;    [containerView addSubview:toView];&#10;    toView.frame = toViewStartFrame;&#10; &#10;    // Animate using the animator&#39;s own duration value.&#10;    [UIView animateWithDuration:[self transitionDuration:transitionContext]&#10;                     animations:^&#123;&#10;                         if (self.presenting) &#123;&#10;                             // Move the presented view into position.&#10;                             [toView setFrame:toViewFinalFrame];&#10;                         &#125;&#10;                         else &#123;&#10;                             // Move the dismissed view offscreen.&#10;                             [fromView setFrame:fromViewFinalFrame];&#10;                         &#125;&#10;                     &#125;&#10;                     completion:^(BOOL finished)&#123;&#10;                         BOOL success = ![transitionContext transitionWasCancelled];&#10; &#10;                         // After a failed presentation or successful dismissal, remove the view.&#10;                         if ((self.presenting &#38;&#38; !success) || (!self.presenting &#38;&#38; success)) &#123;&#10;                             [toView removeFromSuperview];&#10;                         &#125;&#10; &#10;                         // Notify UIKit that the transition has finished&#10;                         [transitionContext completeTransition:success];&#10;                     &#125;];&#10; &#10;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="u52A8_u753B_u7ED3_u675F_u540E_u7684_u6E05_u7406"><a href="#u52A8_u753B_u7ED3_u675F_u540E_u7684_u6E05_u7406" class="headerlink" title="动画结束后的清理"></a>动画结束后的清理</h3><p>在转场动画结束后，调用<em>completeTransition:</em>方法是至关重要的。调用这个方法告诉UIKit转场已经结束，用户可以使用展示的controller了。调用这个方法也会出发一系列的其它回调，包括<em>presentViewController:animated:completion:</em>方法的回调和animator自己的<em>animationEnded:</em>方法。调用<em>completeTransition:</em>方法最好的地方就是动画的完成回调。</p>
+<p>由于转场是可以取消的的，你应该使用转场上下文的<em>transitionWasCancelled:</em>方法来决定是否需要清理。当转场取消时，你的animator应该撤销所有的操作。</p>
+<h3 id="u7ED9_u8F6C_u573A_u6DFB_u52A0_u4EA4_u4E92_u6027"><a href="#u7ED9_u8F6C_u573A_u6DFB_u52A0_u4EA4_u4E92_u6027" class="headerlink" title="给转场添加交互性"></a>给转场添加交互性</h3><p>给动画添加交互性的最简单的方式就是使用<em>UIPercentDrivenInteractiveTransition</em>对象。这个对象与现有的animator对象一起协同控制动画的时机。它通过你提供的完成百分比来工作。你所要做的就是设置事件处理代码，来计算当前转场完成的百分比，并进行更新。</p>
+<p>你可以直接使用这个类或者继承它。如果继承，使用<em>init</em>方法（或<em>startInteractiveTransition:</em>）来进行一次性的事件处理初始化。然后，使用你自定义的事件处理代码计算完成百分比，调用<em>updateInteracitveTransition:</em>方法。当你的代码返回完成时，调用<em>finishInteractiveTransition</em>方法。</p>
+<p>下面展示了自定义的<em>startInteractiveTransition</em>方法。这个方法设置了pan手势来追踪点击事件。</p>
+<figure class="highlight"><figcaption><span>c</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)startInteractiveTransition:(id&#60;UIViewControllerContextTransitioning&#62;)transitionContext &#123;&#10;   // Always call super first.&#10;   [super startInteractiveTransition:transitionContext];&#10; &#10;   // Save the transition context for future reference.&#10;   self.contextData = transitionContext;&#10; &#10;   // Create a pan gesture recognizer to monitor events.&#10;   self.panGesture = [[UIPanGestureRecognizer alloc]&#10;                        initWithTarget:self action:@selector(handleSwipeUpdate:)];&#10;   self.panGesture.maximumNumberOfTouches = 1;&#10; &#10;   // Add the gesture recognizer to the container view.&#10;   UIView* container = [transitionContext containerView];&#10;   [container addGestureRecognizer:self.panGesture];</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意</p>
+<p>计算的值代表整个动画长度的百分比。对于交互式的动画，你可能想避免非线性的效果。</p>
+</blockquote>
+<h2 id="u521B_u5EFA_u4E0E_u8F6C_u573A_u540C_u65F6_u8FDB_u884C_u7684_u52A8_u753B"><a href="#u521B_u5EFA_u4E0E_u8F6C_u573A_u540C_u65F6_u8FDB_u884C_u7684_u52A8_u753B" class="headerlink" title="创建与转场同时进行的动画"></a>创建与转场同时进行的动画</h2><p>转场中的view controller可以进行额外的动画。比如，一个要展示的controller可以在转场进行时进行自己视图的动画处理，给转场添加额外的视觉效果。任何对象都能够创建动画，只要它能访问<em>transitionCoordinator</em>属性。这个对象只在转场过程中存在。</p>
+<p>要创建动画，调用<em>animatedAlongsideTransistion:completion:</em>或者<em>animateAlongsideTransitionInView:animation:completion:</em>方法。</p>
+<p>## </p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/04/27/ImproveDrawingPerformance/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">提升绘制性能</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="Transition" data-title="转场动画概述" data-url="http://yoursite.com/2016/07/25/Transition/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 李宝库
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>
